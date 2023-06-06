@@ -1,30 +1,33 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('test') {
+      steps {
+        sh '''pwd
+ls'''
+      }
+    }
+
+    stage('test-deploy') {
       parallel {
-        stage('Build') {
+        stage('test-deploy') {
           steps {
-            sh '''ls
-pwd
-touch files1'''
-            echo 'Hello World'
+            echo 'Test deploy message'
           }
         }
 
-        stage('Alert') {
+        stage('test2-deploy') {
           steps {
-            echo 'THIS IS ALERT MESSAGE'
+            echo 'Hi paralel'
           }
         }
 
       }
     }
 
-    stage('Deploy') {
+    stage('production') {
       steps {
-        sleep(unit: 'SECONDS', time: 10)
-        echo 'This is Deploy'
+        timeout(time: 5)
       }
     }
 
